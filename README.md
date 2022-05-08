@@ -1,2 +1,2 @@
 # QtProject
-QT个人项目
+QT个人小项目
