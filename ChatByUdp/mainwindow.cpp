@@ -18,15 +18,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::init() //初始化
 {
-    //样式
-    btnSetPort = new QPushButton("设置", ui->toolBar);
-    ui->toolBar->addWidget(btnSetPort);
-    ui->textEditAllText->setReadOnly(1);
-    ui->lineEdit_IP->setPlaceholderText("IP地址");
-    ui->lineEdit_Port->setPlaceholderText("端口");
-    ui->btnSend->setEnabled(0);
-    ui->btnClear->setEnabled(0);
-    ui->progressBar->setVisible(0);
     this->setStyle();
     //初始化套接字
     m_socket = new QUdpSocket(this);
@@ -41,21 +32,32 @@ void MainWindow::init() //初始化
     isSendFile = false;
 }
 
-void MainWindow::setStyle() //qss样式
+void MainWindow::setStyle() //样式
 {
+    //样式
+    btnSetPort = new QPushButton(ui->toolBar);
+    btnSetPort->setIcon(QIcon(":/src/adjust.png"));
+    ui->toolBar->addWidget(btnSetPort);
+    ui->textEditAllText->setReadOnly(1);
+    ui->lineEdit_IP->setPlaceholderText("IP地址");
+    ui->lineEdit_Port->setPlaceholderText("端口");
+    ui->btnSend->setEnabled(0);
+    ui->btnClear->setEnabled(0);
+    //this->setWindowFlags(Qt::FramelessWindowHint);
+    //qss
     this->setStyleSheet("QPushButton{border-radius:8px;height:25px;background:white;font-size:15px;}"
                         "QPushButton:hover{background:#519ce6;}"
                         "QPushButton:pressed{background:#2773be;}"
                         "QTextEdit:hover{border:2px solid black;}"
                         "QTextEdit{border:0px;}"
                         "QLineEdit{border-radius:2px;border-bottom:1px solid black}"
-                        "QMainWindow{background:#eef0f1;}"
                         "QGroupBox{border-radius:10px;background:white;}"
                         "QToolBar{background:white;}");
 
-    this->btnSetPort->setStyleSheet("QPushButton{border-radius:5px;height:15px;width:25px;background:white;border:0px solid black;font-size:10px;}"
+    this->btnSetPort->setStyleSheet("QPushButton{border-radius:5px;height:25px;width:30px;background:white;border:0px solid black;font-size:10px;}"
                                     "QPushButton:hover{background:#519ce6;}"
                                     "QPushButton:pressed{background:#2773be;}");
+
 }
 
 void MainWindow::sendText() //发送信息
@@ -67,7 +69,6 @@ void MainWindow::sendText() //发送信息
     ui->textEditAllText->append(text);
     ui->textEditSendText->clear();
     ui->btnSend->setEnabled(0);
-    ui->progressBar->setVisible(1);
 }
 
 void MainWindow::sendFile() //发送文件
@@ -199,5 +200,19 @@ void MainWindow::on_textEditAllText_textChanged() //聊天内容改变事件
     else
     {
         ui->btnClear->setEnabled(0);
+    }
+}
+
+void MainWindow::closeEvent(QCloseEvent *event) //退出事件
+{
+    QMessageBox* box = new QMessageBox(this);
+    QMessageBox::StandardButton res = box->question(this," ","确认退出？",QMessageBox::Yes | QMessageBox::No);
+    if (res == QMessageBox::Yes)
+    {
+        event->accept();
+    }
+    else
+    {
+        event->ignore();
     }
 }

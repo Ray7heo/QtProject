@@ -7,6 +7,7 @@
 #include <QTcpServer>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QCloseEvent>
 #include <thread>
 
 
@@ -37,6 +38,9 @@ public:
     void recvText();
 
     void on_btnSetPort_clicked();
+
+
+
 
 private slots:
     void on_btnClear_clicked();
@@ -75,5 +79,9 @@ private:
     SetPortWindow* win;
 
     Ui::MainWindow *ui;
+
+    // QWidget interface
+protected:
+    void closeEvent(QCloseEvent *event);
 };
 #endif // MAINWINDOW_H

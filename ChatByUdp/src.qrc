@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>src/add_200.png</file>
+        <file>src/adjust.png</file>
+        <file>src/smile.png</file>
+        <file>src/setting.png</file>
+    </qresource>
+</RCC>
